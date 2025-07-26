@@ -42,6 +42,36 @@ def bfs(maze, start, goal, is_wall):
 
     return None  # no path
 
+def dfs(maze, start, goal, is_wall):
+    
+    frontier = [start]
+
+    came_from = {start:None}
+    visited = set()
+
+    while frontier:
+        current = frontier.pop()
+
+        if current == goal:
+            # return patn
+            path = []
+            while current is not None:
+                path.append(current)
+                current = came_from[current]
+            path.reverse()
+            return path
+        
+        visited.add(current)
+
+        for neighbor in get_neighbors(current, maze, is_wall):
+            if neighbor not in visited and neighbor not in frontier:
+                came_from[neighbor] = current
+                frontier.append(neighbor)
+
+    return None  # no path
+    
+    pass
+        
 
 def get_neighbors(position, maze, is_wall):
     i, j = position
