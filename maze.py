@@ -1,4 +1,4 @@
-from search import bfs,dfs
+from search import bfs,dfs,astar
 
 class Maze:
     def __init__(self,filename):
@@ -57,6 +57,8 @@ class Maze:
             path = bfs(self.maze,self.start,self.goal,is_wall)
         elif method =="dfs":
             path = dfs(self.maze,self.start,self.goal,is_wall)
+        elif method == "astar":
+            path = astar(self.maze,self.start,self.goal,is_wall)
         else:
             raise ValueError("Unknown search method")
         
@@ -67,5 +69,5 @@ class Maze:
 
 if __name__ == "__main__":
     m = Maze("maze.txt")
-    m.solve("bfs")
+    m.solve("astar")
     m.print_maze()
