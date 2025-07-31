@@ -99,6 +99,36 @@ def astar(maze,start,goal,is_wall):
                 came_from[neighbor] = current
     return None
 
+def axing (maze,start,goal,is_wall):
+    def heuristic(a,b):
+        return abs(a[0]-b[0]) + abs(a[1]-b[1])
+
+    frontier = []
+    heapq.heappush(frontier,(0,start))
+
+    came_from = {start:None}
+    cost_so_far = {start:0}
+
+    while frontier:
+        _,current = heapq.heappop(frontier)
+
+        if current == goal:
+            path = []
+            while current is not None:
+                path.append(current)
+                current = came_from[current]
+            path.reverse()
+            return path
+        
+        for neighbor in get_neighbors(current,maze,is_wall):
+            new_cost = cost_so_far[current] +1
+            if neighbor  not in cost_so_far or new_cost < cost_so_far[neighbor]:
+                cost_so_far[neighbor] = new_cost
+                f_cost = new_cost + heuristic(neighbor,goal)
+                heapq.heappush(frontier,(f_cost,neighbor))
+                came_from[neighbor] = current
+    return None
+
 def get_neighbors(position, maze, is_wall):
     i, j = position
     neighbors = []
